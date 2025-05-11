@@ -7,9 +7,15 @@ import Col from "react-bootstrap/Col";
 import { useParams } from "react-router";
 import instance from "../api/productApi";
 import { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router";
+import { useDispatch } from "react-redux";
+import { addItem } from '../store/slices/cartItems';
 
 function ProductDetail() {
   const [product, setproduct] = useState();
+
+  const dispatch = useDispatch();
 
   const params = useParams();
 
@@ -59,6 +65,15 @@ function ProductDetail() {
                     <strong>Shipping:</strong> {product.shippingInformation}
                   </ListGroup.Item>
                 </ListGroup>
+                <Button variant="primary" as={Link} to={`/cart`} onClick={() => dispatch(addItem({
+                  name: product.title,
+                  image: product.images[0],
+                  code: product.id,
+                  price: product.price,
+                  quantity: 1,
+                }))}>
+                  add to cart
+                </Button>
               </Card.Body>
             </Col>
           </Row>
